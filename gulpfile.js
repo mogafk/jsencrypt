@@ -1,10 +1,13 @@
 var gulp = require('gulp');
+var browserify = require('browserify');
+var babelify = require('babelify');
 var eslint = require('gulp-eslint');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var concat = require('gulp-concat');
 var insert = require('gulp-insert');
 var wrap = require('gulp-wrap');
+var source = require('vinyl-source-stream');
 
 var files = [
   'lib/jsbn/jsbn.js',
@@ -47,6 +50,34 @@ gulp.task('license', function() {
     }))
     .pipe(concat('LICENSE.txt'))
     .pipe(gulp.dest(''));
+});
+
+gulp.task('compileTests', function() {
+    return browserify({
+        entries: [
+            'test/test.rsa.js'
+        ]
+    })
+    .transform(babelify.configure({
+        presets: ["es2015"]
+    }))
+    .bundle()
+    .pipe(source('test.rsa.bundle.js'))
+    .pipe(gulp.dest('test/'))
+});
+
+gulp.task('compileSource', function() {
+    return browserify({
+        entries: [
+            'src/jsencrypt.js'
+        ]
+    })
+    .transform(babelify.configure({
+        presets: ["es2015"]
+    }))
+    .bundle()
+    .pipe(source('index.js'))
+    .pipe(gulp.dest(''))
 });
 
 var packageJson = require('./package.json');
