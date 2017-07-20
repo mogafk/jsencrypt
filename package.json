@@ -1,14 +1,16 @@
 {
   "name": "js-encrypt",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "description": "A Javascript library to perform OpenSSL RSA Encryption, Decryption, and Key Generation.",
-  "main": "./bin/jsencrypt",
+  "main": "./bin/jsencrypt.js",
   "scripts": {
-    "build": "cross-env BABEL_ENV=commonjs babel src --out-dir bin"
+    "build": "cross-env BABEL_ENV=commonjs babel src --out-dir bin",
+    "prepublish": "npm run build"
   },
   "files": [
     "lib",
-    "src"
+    "src",
+    "bin"
   ],
   "contributors": [
     {
