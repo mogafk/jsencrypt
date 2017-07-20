@@ -940,10 +940,10 @@ function am3(i, x, w, j, c, n) {
   }
   return c;
 }
-if (j_lm && navigator.appName == "Microsoft Internet Explorer") {
+if (j_lm && navigator && navigator.appName == "Microsoft Internet Explorer") {
   BigInteger.prototype.am = am2;
   dbits = 30;
-} else if (j_lm && navigator.appName != "Netscape") {
+} else if (j_lm && navigator && navigator.appName != "Netscape") {
   BigInteger.prototype.am = am1;
   dbits = 26;
 } else {
@@ -2392,7 +2392,7 @@ if (rng_pool == null) {
       // Sometimes Firefox will deny permission to access event properties for some reason. Ignore.
     }
   };
-  if (window.addEventListener) window.addEventListener("mousemove", onMouseMoveListener, false);else if (window.attachEvent) window.attachEvent("onmousemove", onMouseMoveListener);
+  if (window && window.addEventListener) window.addEventListener("mousemove", onMouseMoveListener, false);else if (window && window.attachEvent) window.attachEvent("onmousemove", onMouseMoveListener);
 }
 
 function rng_get_byte() {
@@ -4060,7 +4060,6 @@ JSX.extend(KJUR.asn1.DERTaggedObject, KJUR.asn1.ASN1Object);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.JSEncrypt = undefined;
 
 var _asn = require("../lib/asn1js/asn1");
 
@@ -4403,7 +4402,7 @@ var JSEncryptRSAKey = function (_RSAKey) {
  */
 
 
-var JSEncrypt = exports.JSEncrypt = function JSEncrypt(options) {
+var JSEncrypt = function JSEncrypt(options) {
   _classCallCheck(this, JSEncrypt);
 
   options = options || {};
@@ -4423,6 +4422,7 @@ var JSEncrypt = exports.JSEncrypt = function JSEncrypt(options) {
  */
 
 
+exports.default = JSEncrypt;
 JSEncrypt.prototype.setKey = function (key) {
   if (this.log && this.key) {
     console.warn('A key was already set, overriding existing.');
