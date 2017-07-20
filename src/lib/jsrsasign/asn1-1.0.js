@@ -6,6 +6,8 @@ export const JSX = /*window.JSX || */{};
 JSX.env = JSX.env || {};
 
 var L = JSX, OP = Object.prototype, FUNCTION_TOSTRING = '[object Function]',ADD = ["toString", "valueOf"];
+var navigator;
+var window;
 
 JSX.env.parseUA = function(agent) {
 

@@ -1,11 +1,11 @@
-import {ASN1} from "../lib/asn1js/asn1";
-import {RSAKey} from "../lib/jsbn/rsa2";
-import {Base64} from "../lib/asn1js/base64";
-import {Hex} from "../lib/asn1js/hex";
-import {parseBigInt} from "../lib/jsbn/rsa";
-import {KJUR} from "../lib/jsrsasign/asn1-1.0";
-import {hex2b64} from "../lib/jsbn/base64";
-import {b64tohex} from "../lib/jsbn/base64";
+import {ASN1} from "./lib/asn1js/asn1";
+import {RSAKey} from "./lib/jsbn/rsa2";
+import {Base64} from "./lib/asn1js/base64";
+import {Hex} from "./lib/asn1js/hex";
+import {parseBigInt} from "./lib/jsbn/rsa";
+import {KJUR} from "./lib/jsrsasign/asn1-1.0";
+import {hex2b64} from "./lib/jsbn/base64";
+import {b64tohex} from "./lib/jsbn/base64";
 /**
  * Retrieve the hexadecimal value (as a string) of the current ASN.1 element
  * @returns {string}
@@ -354,7 +354,7 @@ class JSEncryptRSAKey extends RSAKey {
  * - log                     {boolean} default: false whether log warn/error or not
  * @constructor
  */
-export default class JSEncrypt{
+export default class JSEncrypt {
   constructor (options) {
     options = options || {};
     this.default_key_size = parseInt(options.default_key_size) || 1024;

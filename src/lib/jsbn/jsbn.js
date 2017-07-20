@@ -6,6 +6,8 @@
 
 // Bits per digit
 var dbits;
+var navigator;
+var window;
 
 // JavaScript engine analysis
 var canary = 0xdeadbeefcafe;

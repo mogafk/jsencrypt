@@ -4,13 +4,14 @@ import {prng_newstate} from "./prng4";
 var rng_state;
 var rng_pool;
 var rng_pptr;
+var window;
 
 // Initialize the pool with junk if needed.
 if(rng_pool == null) {
   rng_pool = new Array();
   rng_pptr = 0;
   var t;
-  if(window.crypto && window.crypto.getRandomValues) {
+  if(window && window.crypto && window.crypto.getRandomValues) {
     // Extract entropy (2048 bits) from RNG if available
     var z = new Uint32Array(256);
     window.crypto.getRandomValues(z);
