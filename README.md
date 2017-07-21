@@ -1,3 +1,11 @@
+[![npm version](https://badge.fury.io/js/js-encrypt.svg)](https://badge.fury.io/js/js-encrypt)
+
+Update
+======================
+This is a fork of [https://github.com/travist/jsencrypt](). It has been changed so it can be distributed on [npm](https://www.npmjs.com/package/js-encrypt) and used without browser globals like window, navigator, etc. 
+
+Note: if you use this library without the browser rng.js may be less random
+
 Website
 ======================
 http://travistidwell.com/jsencrypt
