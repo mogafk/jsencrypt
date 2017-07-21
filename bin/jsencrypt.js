@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.JSEncrypt = undefined;
 
 var _asn = require("./lib/asn1js/asn1");
 
@@ -345,7 +346,7 @@ var JSEncryptRSAKey = function (_RSAKey) {
  */
 
 
-var JSEncrypt = function JSEncrypt(options) {
+var JSEncrypt = exports.JSEncrypt = function JSEncrypt(options) {
   _classCallCheck(this, JSEncrypt);
 
   options = options || {};
@@ -365,7 +366,6 @@ var JSEncrypt = function JSEncrypt(options) {
  */
 
 
-exports.default = JSEncrypt;
 JSEncrypt.prototype.setKey = function (key) {
   if (this.log && this.key) {
     console.warn('A key was already set, overriding existing.');
@@ -493,4 +493,3 @@ JSEncrypt.prototype.getPublicKeyB64 = function () {
   // Return the private representation of this key.
   return this.getKey().getPublicBaseKeyB64();
 };
-module.exports = exports["default"];
