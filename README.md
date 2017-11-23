@@ -1,5 +1,10 @@
 [![npm version](https://badge.fury.io/js/js-encrypt.svg)](https://badge.fury.io/js/js-encrypt)
 
+
+!!WARNING!!
+======================
+do not use it in production. I'm not sure if this works correctly
+
 Update
 ======================
 This is a fork of [https://github.com/travist/jsencrypt](). It has been changed so it can be distributed on [npm](https://www.npmjs.com/package/js-encrypt) and used without browser globals like window, navigator, etc. 
