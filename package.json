@@ -1,5 +1,5 @@
 {
-  "name": "js-encrypt",
+  "name": "js-encrypt-without-padding-node",
   "version": "2.3.4",
   "description": "A Javascript library to perform OpenSSL RSA Encryption, Decryption, and Key Generation.",
   "main": "./bin/jsencrypt.js",
