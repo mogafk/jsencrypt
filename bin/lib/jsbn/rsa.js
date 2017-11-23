@@ -31,6 +31,61 @@ function linebrk(s, n) {
 function byte2Hex(b) {
   if (b < 0x10) return "0" + b.toString(16);else return b.toString(16);
 }
+/*
+  pkcs1NoPadding fn owner https://github.com/ferdibiflator
+*/
+function pkcs1NoPadding(s, n) {
+  // console.log('s', s);
+  // console.log('n', n);
+  if (n < s.length + 11) {
+    // TODO: fix for utf-8
+    console.error("Message too long for RSA");
+    return null;
+  }
+  var ba = new Array();
+  var i = s.length - 1;
+  // while(i >= 0 && n > 0) {
+  //   var c = s.charCodeAt(i--);
+  //   console.log('s[i]', s[i]);
+  //   console.log('c', c);
+
+  //   if(c < 256) { // encode using utf-8
+  //     ba[--n] = c;
+  //   } else {
+  //     throw Error('There is not valid character with code: ' + c);
+  //   }
+  // }
+
+  while (i >= 0 && n > 0) {
+    // console.log('i', i);
+    // console.log('n', n);
+    var c = s.charCodeAt(i--);
+    if (c < 128) {
+      // encode using utf-8
+      ba[--n] = c;
+    } else if (c > 127 && c < 2048) {
+      ba[--n] = c & 63 | 128;
+      ba[--n] = c >> 6 | 192;
+    } else {
+      ba[--n] = c & 63 | 128;
+      ba[--n] = c >> 6 & 63 | 128;
+      ba[--n] = c >> 12 | 224;
+    }
+  }
+  ba[--n] = 0;
+  while (n > 2) {
+    ba[--n] = 0;
+  }
+  // console.log('latest n', n);
+  ba[1] = 2;
+  ba[0] = 0;
+
+  // console.log('ba', ba);
+  var _ba = new _jsbn.BigInteger(ba);
+  // console.log('_ba.toString()', _ba.toString(2))
+
+  return new _jsbn.BigInteger(ba);
+}
 
 // PKCS#1 (type 2, random) pad input string s to n bytes, and return a bigint
 function pkcs1pad2(s, n) {
@@ -102,7 +157,8 @@ function RSADoPublic(x) {
 
 // Return the PKCS#1 RSA encryption of "text" as an even-length hex string
 function RSAEncrypt(text) {
-  var m = pkcs1pad2(text, this.n.bitLength() + 7 >> 3);
+  var m = pkcs1NoPadding(text, this.n.bitLength() + 7 >> 3);
+  // var m = pkcs1pad2(text,(this.n.bitLength()+7)>>3);
   if (m == null) return null;
   var c = this.doPublic(m);
   if (c == null) return null;

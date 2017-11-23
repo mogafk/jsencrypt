@@ -8,6 +8,44 @@ import {parseBigInt} from "./rsa";
 import {RSAKey} from "./rsa";
 export {RSAKey} from "./rsa";
 
+function pkcs1unpad2NoPadding(d,n) {
+  // d - bigInteger
+  // console.log('d', d);
+  // n - 128 
+  // console.log('n', n);
+  var b = d.toByteArray();
+  // b в случае яяя массив состоящий
+  // console.log('b', b);
+  // console.log('b.length', b.length);
+  var i = 0;
+  while(i < b.length && b[i] == 0) ++i;
+  // console.log('i', i);
+  // console.log('b.length-i', b.length-i);
+  // console.log('n-1', n-1);
+  // console.log('b[i]', b[i]);
+  if(b.length-i != n-1 || b[i] != 2)
+    return null;
+  ++i;
+  while(b[i] != 0)
+    if(++i >= b.length) return null;
+  var ret = "";
+  while(++i < b.length) {
+    var c = b[i] & 255;
+    if(c < 128) { // utf-8 decode
+      ret += String.fromCharCode(c);
+    }
+    else if((c > 191) && (c < 224)) {
+      ret += String.fromCharCode(((c & 31) << 6) | (b[i+1] & 63));
+      ++i;
+    }
+    else {
+      ret += String.fromCharCode(((c & 15) << 12) | ((b[i+1] & 63) << 6) | (b[i+2] & 63));
+      i += 2;
+    }
+  }
+  return ret;
+}
+
 function pkcs1unpad2(d,n) {
   var b = d.toByteArray();
   var i = 0;
@@ -113,10 +151,12 @@ function RSADoPrivate(x) {
 // Return the PKCS#1 RSA decryption of "ctext".
 // "ctext" is an even-length hex string and the output is a plain string.
 function RSADecrypt(ctext) {
+  // console.log('ctext', ctext, typeof ctext);
   var c = parseBigInt(ctext, 16);
   var m = this.doPrivate(c);
   if(m == null) return null;
-  return pkcs1unpad2(m, (this.n.bitLength()+7)>>3);
+  return pkcs1unpad2NoPadding(m, (this.n.bitLength()+7)>>3);
+  // return pkcs1unpad2(m, (this.n.bitLength()+7)>>3);
 }
 
 // Return the PKCS#1 RSA decryption of "ctext".
